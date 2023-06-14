@@ -7,7 +7,18 @@ const AmountField: React.FC<FieldPropsType> = ({ label }) => {
   const fieldValue = useAppSelector((state) => state.rate[label]);
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    dispatch(changeField({ fieldName: label, fieldValue: e.target.value }));
+    const { value } = e.target;
+
+    if (/[^\d]|^0/.test(value)) {
+      return;
+    }
+
+    dispatch(
+      changeField({
+        fieldName: label,
+        fieldValue: value,
+      })
+    );
   };
 
   console.log(label);
@@ -18,8 +29,8 @@ const AmountField: React.FC<FieldPropsType> = ({ label }) => {
       <input
         id={label}
         name={label}
-        type='number'
-        value={fieldValue === '0' ? '' : fieldValue}
+        type='text'
+        value={fieldValue}
         onChange={handleInputChange}
       />
     </div>
