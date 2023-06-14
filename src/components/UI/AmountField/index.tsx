@@ -1,14 +1,16 @@
-import { useAppSelector, useAppDispatch } from '@/store/hooks';
-import { selectRate } from '@/store/rateSlice';
-import { changeAmount } from '@/store/rateSlice';
+import { useAppSelector, useAppDispatch } from '@/redux/hooks';
+import { changeField } from '@/redux/rateSlice';
+import { FieldPropsType } from '../../../../types';
 
-const AmountField: React.FC<{ label: string }> = ({ label }) => {
-  const currencyAmount = useAppSelector((state) => state.rate.currencyAmount);
+const AmountField: React.FC<FieldPropsType> = ({ label }) => {
   const dispatch = useAppDispatch();
+  const fieldValue = useAppSelector((state) => state.rate[label]);
+
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    dispatch(changeAmount(Number(e.target.value)));
-    console.log(currencyAmount);
+    dispatch(changeField({ fieldName: label, fieldValue: e.target.value }));
   };
+
+  console.log(label);
 
   return (
     <div>
@@ -17,7 +19,7 @@ const AmountField: React.FC<{ label: string }> = ({ label }) => {
         id={label}
         name={label}
         type='number'
-        value={currencyAmount || ''}
+        value={fieldValue === '0' ? '' : fieldValue}
         onChange={handleInputChange}
       />
     </div>

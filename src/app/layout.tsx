@@ -1,5 +1,6 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import Header from '@/components/Header';
+import ReduxProvider from '@/redux/provider';
 
 export const metadata: Metadata = {
   title: 'currency',
@@ -15,7 +16,9 @@ export default function RootLayout({
     <html lang='en'>
       <body>
         <Header />
-        <main>{children}</main>
+        <main>
+          <ReduxProvider>{children}</ReduxProvider>
+        </main>
       </body>
     </html>
   );
