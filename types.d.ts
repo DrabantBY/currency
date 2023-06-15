@@ -1,14 +1,22 @@
 export type RateStateType = {
-  sourceCurrency: string;
-  currencyAmount: string;
-  targetCurrency: string;
+  source: string;
+  amount: string;
+  target: string;
+  currencies: string[];
+  output: string;
+  loading: boolean;
 };
 
+type LabelType = Exclude<
+  keyof RateStateType,
+  'currencies' | 'output' | 'loading'
+>;
+
 export type ActionDataType = {
-  fieldName: keyof RateStateType;
+  fieldName: LabelType;
   fieldValue: string;
 };
 
 export type FieldPropsType = {
-  label: keyof RateStateType;
+  label: LabelType;
 };

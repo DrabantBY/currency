@@ -1,25 +1,30 @@
+import { memo, useCallback } from 'react';
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { changeField } from '@/redux/rateSlice';
 import { FieldPropsType } from '../../../../types';
 
-const AmountField: React.FC<FieldPropsType> = ({ label }) => {
+const AmountField: React.FC<FieldPropsType> = memo(({ label }) => {
   const dispatch = useAppDispatch();
   const fieldValue = useAppSelector((state) => state.rate[label]);
 
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { value } = e.target;
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> =
+    useCallback(
+      (e) => {
+        const { value } = e.target;
 
-    if (/[^\d]|^0/.test(value)) {
-      return;
-    }
+        if (/[^\d]|^0/.test(value)) {
+          return;
+        }
 
-    dispatch(
-      changeField({
-        fieldName: label,
-        fieldValue: value,
-      })
+        dispatch(
+          changeField({
+            fieldName: label,
+            fieldValue: value,
+          })
+        );
+      },
+      [dispatch, label]
     );
-  };
 
   console.log(label);
 
@@ -35,6 +40,8 @@ const AmountField: React.FC<FieldPropsType> = ({ label }) => {
       />
     </div>
   );
-};
+});
+
+AmountField.displayName = 'AmountField';
 
 export default AmountField;

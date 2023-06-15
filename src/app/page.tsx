@@ -1,9 +1,9 @@
-import RateForm from '@/components/RateForm';
+import CurrencyForm from '@/components/CurrencyForm';
 
 const MainPage = () => {
   return (
     <div>
-      <RateForm />
+      <CurrencyForm />
     </div>
   );
 };
