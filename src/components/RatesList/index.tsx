@@ -18,7 +18,9 @@ const RatesList = () => {
   ) : (
     <ul className={styles.rates}>
       {rates.map(([currency, rate]) => (
-        <li key={currency}>{`1 ${currency} = ${rate} ${base}`}</li>
+        <li key={currency}>
+          {`1 ${currency} = ${rate}`}&nbsp;{base}
+        </li>
       ))}
     </ul>
   );

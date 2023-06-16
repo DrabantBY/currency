@@ -24,4 +24,8 @@
   &:focus {
     outline: none;
   }
+
+  option {
+    color: var(--black);
+  }
 }
