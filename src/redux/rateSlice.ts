@@ -10,7 +10,7 @@ const initialState: RateStateType = {
   currencies: [],
   output: '',
   loading: false,
-  base: 'byn',
+  base: 'pln',
   rates: [],
 };
 

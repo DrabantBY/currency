@@ -22,8 +22,6 @@ const SelectField: React.FC<FieldPropsType> = memo(({ label }) => {
       [dispatch, label]
     );
 
-  console.log(label);
-
   return (
     <div className={styles.wrapper}>
       <label className={styles.label} htmlFor={label}>

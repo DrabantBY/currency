@@ -8,7 +8,6 @@ import RatesList from '../RatesList';
 
 const CurrentRate = () => {
   const dispatch = useAppDispatch();
-  console.log('current race');
 
   useEffect(() => {
     dispatch(fetchCurrencies());
