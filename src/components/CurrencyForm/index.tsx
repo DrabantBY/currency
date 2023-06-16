@@ -6,12 +6,14 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { resetFields } from '@/redux/rateSlice';
 import SelectField from '../UI/SelectFIeld';
 import AmountField from '../UI/AmountField';
+import styles from './styles.module.scss';
 
 const CurrencyForm = () => {
-  console.log('form');
   const dispatch = useAppDispatch();
-  const output = useAppSelector((state) => state.rate.output);
-  const loading = useAppSelector((state) => state.rate.loading);
+  const rate = useAppSelector((state) => state.rate);
+
+  const isDisabled =
+    rate.loading || !rate.source || !rate.amount || !rate.target;
 
   useEffect(() => {
     dispatch(fetchCurrencies());
@@ -29,24 +31,24 @@ const CurrencyForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleFormSubmit}>
+    <div className='container'>
+      <form className={styles.form} onSubmit={handleFormSubmit}>
         <SelectField label='source' />
         <AmountField label='amount' />
         <SelectField label='target' />
-        <button type='submit' disabled={loading}>
+        <button className={styles.btn} type='submit' disabled={isDisabled}>
           convert
         </button>
+        <span className={styles.output}>{rate.output}</span>
         <button
+          className={styles.btn}
           type='button'
-          disabled={loading}
           onClick={() => dispatch(resetFields())}
+          disabled={rate.loading}
         >
           reset
         </button>
       </form>
-
-      <span>Output: {output}</span>
     </div>
   );
 };

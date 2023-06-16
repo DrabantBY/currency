@@ -1,5 +1,7 @@
+import CurrentRate from '@/components/CurrentRate';
+
 const Rates = () => {
-  return <h1>adsfasfd</h1>;
+  return <CurrentRate />;
 };
 
 export default Rates;

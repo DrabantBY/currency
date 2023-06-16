@@ -10,6 +10,8 @@ const initialState: RateStateType = {
   currencies: [],
   output: '',
   loading: false,
+  base: 'byn',
+  rates: [],
 };
 
 export const fetchCurrencies = createAsyncThunk(
@@ -24,6 +26,15 @@ export const fetchOutput = createAsyncThunk(
   'rate/fetchOutput',
   async ({ source, target }: { source: string; target: string }) => {
     const { data } = await api.get(`currencies/${source}/${target}.min.json`);
+    console.log('data', data);
+    return data;
+  }
+);
+
+export const fetchRatesList = createAsyncThunk(
+  'rate/fetchRatesList',
+  async (currency: string) => {
+    const { data } = await api.get(`currencies/${currency}.min.json`);
     return data;
   }
 );
@@ -46,19 +57,30 @@ const rateSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(fetchCurrencies.fulfilled, (state, action) => {
-      state.currencies = Object.keys(action.payload);
-    });
+    builder
+      .addCase(fetchCurrencies.fulfilled, (state, action) => {
+        state.currencies = Object.keys(action.payload);
+      })
+      .addCase(fetchOutput.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchOutput.fulfilled, (state, action) => {
+        state.loading = false;
+        state.output = (
+          action.payload[state.target] * Number(state.amount)
+        ).toFixed(2);
+      })
+      .addCase(fetchRatesList.pending, (state) => {
+        state.loading = true;
+      });
 
-    builder.addCase(fetchOutput.pending, (state, action) => {
-      state.loading = true;
-    });
+    builder.addCase(fetchRatesList.fulfilled, (state, action) => {
+      const ratesList = Object.entries(action.payload[state.base])
+        .filter((rate) => Boolean(rate[1]))
+        .map((rate) => [rate[0], (1 / (rate[1] as number)).toFixed(2)]);
 
-    builder.addCase(fetchOutput.fulfilled, (state, action) => {
+      state.rates = ratesList as [string, string][];
       state.loading = false;
-      state.output = (
-        action.payload[state.target] * Number(state.amount)
-      ).toFixed(2);
     });
   },
 });

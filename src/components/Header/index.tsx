@@ -1,19 +1,10 @@
-import Link from 'next/link';
+import Navigation from '../UI/Navigation';
 
 const Header = () => {
   return (
     <header>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link href='/'>Converter</Link>
-            </li>
-            <li>
-              <Link href='/rates'>Rates</Link>
-            </li>
-          </ul>
-        </nav>
+      <div className='container'>
+        <Navigation />
       </div>
     </header>
   );

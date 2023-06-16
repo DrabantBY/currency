@@ -5,11 +5,13 @@ export type RateStateType = {
   currencies: string[];
   output: string;
   loading: boolean;
+  base: string;
+  rates: [string, string][];
 };
 
 type LabelType = Exclude<
   keyof RateStateType,
-  'currencies' | 'output' | 'loading'
+  'currencies' | 'output' | 'loading' | 'rates'
 >;
 
 export type ActionDataType = {
