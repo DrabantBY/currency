@@ -12,8 +12,11 @@ const CurrencyForm = () => {
   const dispatch = useAppDispatch();
   const rate = useAppSelector((state) => state.rate);
 
-  const isDisabled =
+  const isDisabledSubmit =
     rate.loading || !rate.source || !rate.amount || !rate.target;
+
+  const isDisabledReset =
+    rate.loading || (!rate.source && !rate.amount && !rate.target);
 
   useEffect(() => {
     dispatch(fetchCurrencies());
@@ -36,7 +39,11 @@ const CurrencyForm = () => {
         <SelectField label='source' />
         <AmountField label='amount' />
         <SelectField label='target' />
-        <button className={styles.btn} type='submit' disabled={isDisabled}>
+        <button
+          className={styles.btn}
+          type='submit'
+          disabled={isDisabledSubmit}
+        >
           convert
         </button>
         <span className={styles.output}>{rate.output}</span>
@@ -44,7 +51,7 @@ const CurrencyForm = () => {
           className={styles.btn}
           type='button'
           onClick={() => dispatch(resetFields())}
-          disabled={rate.loading}
+          disabled={isDisabledReset}
         >
           reset
         </button>
